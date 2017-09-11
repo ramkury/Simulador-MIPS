@@ -1,4 +1,5 @@
 #include "isa.h"
+#include "control.h"
 
 int32_t mem[MEM_SIZE] = { 0 };
 int32_t gpr[32] = { 0 };
@@ -8,14 +9,13 @@ uint32_t hi = 0;
 uint32_t lo = 0;
 
 int32_t lw(uint32_t address, int16_t kte) {
-    uint32_t addr = (address + kte) >> 2;
+    auto addr = cvt_word_address(address + kte);
     return mem[addr];
 }
 
 int32_t lh(uint32_t address, int16_t kte) {
-    auto m = (int16_t *)mem;
-    uint32_t addr = (address + kte) >> 1;
-    return m[addr];
+    auto addr = cvt_half_address(address + kte);
+    return ((int16_t *)mem)[addr];
 }
 
 int32_t lhu(uint32_t address, int16_t kte) {
@@ -23,9 +23,8 @@ int32_t lhu(uint32_t address, int16_t kte) {
 }
 
 int32_t lb(uint32_t address, int16_t kte) {
-    auto m = (int8_t *)mem;
     uint32_t addr = (address + kte);
-    return m[addr];
+    return ((int8_t *)mem)[addr];
 }
 
 int32_t lbu(uint32_t address, int16_t kte) {
@@ -33,18 +32,30 @@ int32_t lbu(uint32_t address, int16_t kte) {
 }
 
 void sw(uint32_t address, int16_t kte, int32_t dado) {
-    uint32_t addr = (address + kte) >> 2;
+    auto addr = cvt_word_address(address + kte);
     mem[addr] = dado;
 }
 
 void sh(uint32_t address, int16_t kte, int16_t dado) {
-    auto m = (int16_t *)mem;
-    uint32_t addr = (address + kte) >> 1;
-    m[addr] = dado;
+    auto addr = cvt_half_address(address + kte);
+    ((int16_t *)mem)[addr] = dado;
 }
 
 void sb(uint32_t address, int16_t kte, int8_t dado) {
-    auto m = (int8_t *)mem;
     uint32_t addr = (address + kte);
-    m[addr] = dado;
+    ((int8_t *)mem)[addr] = dado;
+}
+
+uint32_t cvt_word_address(uint32_t address) {
+    if (address % 4 != 0) {
+        throw TS_except_alignment_word;
+    }
+    return address / 4;
+}
+
+uint32_t cvt_half_address(uint32_t address) {
+    if (address % 2 != 0) {
+        throw TS_except_alignment_halfword;
+    }
+    return address / 2;
 }

@@ -54,4 +54,9 @@ void sh(uint32_t address, int16_t kte, int16_t dado);
 // escreve um byte na memória
 void sb(uint32_t address, int16_t kte, int8_t dado);
 
+// funções auxiliares
+uint32_t cvt_word_address(uint32_t address);
+uint32_t cvt_half_address(uint32_t address);
+
+
 #endif //SIMULADOR_MIPS_ISA_H

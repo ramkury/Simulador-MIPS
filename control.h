@@ -1,6 +1,13 @@
 #ifndef SIMULADOR_MIPS_CONTROL_H
 #define SIMULADOR_MIPS_CONTROL_H
 
+typedef enum {
+    TS_except_alignment_word,
+    TS_except_alignment_halfword,
+    TS_except_syscall_exit,
+    TS_except_syscall_undefined
+} TS_except;
+
 /**
  * Imprime o conteúdo da memória a partir do endereço start
  * até o endereço end.
