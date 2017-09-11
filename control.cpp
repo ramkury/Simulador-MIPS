@@ -3,25 +3,35 @@
 #include "control.h"
 #include "isa.h"
 
-void print_memory() {
+void dump_mem(int start, int end, char format) {
+
     int i;
-    printf("\nMemoria (hex):\n");
-    printf("Início da área de código (0x%.8X)\n", TEXT_START);
-    for(i = TEXT_START / 4; i < DATA_START / 4; ++i) {
-        printf(" %X ", mem[i]);
+    const char * chosen_format;
+    switch (tolower(format)) {
+        case 'd':
+            printf("\nMemória (formato decimal):\n");
+            chosen_format = " %d ";
+            break;
+        case 'h':
+            printf("\nMemória (formato hexadecimal):\n");
+            chosen_format = " %X ";
+            break;
+        default:
+            return;
     }
-    printf("\nInício da área de dados (0x%.8X)\n", DATA_START);
-    for(i = DATA_START / 4; i < MEM_SIZE; ++i) {
-        printf(" %X ", mem[i]);
+
+    for(i = start / 4; i < end / 4; ++i) {
+        printf(chosen_format, mem[i]);
     }
+
     printf("\n");
+
 }
 
-void read_to_memory(int start_addr, const char * filename) {
+void load_file(int start_addr, const char *filename) {
     std::ifstream f(filename);
     if (f.is_open()) {
-        for (int i = start_addr; !f.eof(); i++)
-        {
+        for (int i = start_addr; !f.eof(); i++) {
             f.read((char *)&mem[i], 4);
         }
     }
@@ -41,12 +51,14 @@ void dump_reg(char format) {
         default:
             return;
     }
+
     for (int i = 0; i < 32; ++i) {
         if (i % 4 == 0) {
             printf("\n");
         }
         printf(chosen_format, gpr_names[i], gpr[i]);
     }
+
     printf("\n");
     printf(chosen_format, "pc", pc);
     printf("\n");

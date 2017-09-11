@@ -4,7 +4,7 @@
 /**
  * Imprime o conteúdo da memória
  */
-void print_memory();
+void dump_mem(int start, int end, char format);
 
 /**
  * Lê o conteúdo do arquivo binário para a memória emulada
@@ -14,7 +14,7 @@ void print_memory();
  * @param filename
  * nome do arquivo binário a ser lido para a memória emulada
  */
-void read_to_memory(int start_addr, const char * filename);
+void load_file(int start_addr, const char *filename);
 
 // Imprime o conteúdo dos registradores do MIPS
 void dump_reg(char format);
