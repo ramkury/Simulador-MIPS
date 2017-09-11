@@ -7,6 +7,9 @@
 #define DATA_START  0x00002000
 #define TEXT_START  0x00000000
 
+#define sp (mem[29])
+#define ra (mem[31])
+
 static const char * gpr_names[] = {
         "zero", "at", "v0", "v1", "a0", "a1", "a2", "a3",
         "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
