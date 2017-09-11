@@ -4,6 +4,8 @@ int32_t mem[MEM_SIZE] = { 0 };
 int32_t gpr[32] = { 0 };
 uint32_t pc = TEXT_START;
 uint32_t ri = 0;
+uint32_t hi = 0;
+uint32_t lo = 0;
 
 int32_t lw(uint32_t address, int16_t kte) {
     uint32_t addr = (address + kte) >> 2;

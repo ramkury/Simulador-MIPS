@@ -61,6 +61,8 @@ void dump_reg(char format) {
 
     printf("\n");
     printf(chosen_format, "pc", pc);
+    printf(chosen_format, "hi", hi);
+    printf(chosen_format, "lo", lo);
     printf("\n");
 }
 

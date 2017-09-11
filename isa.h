@@ -19,7 +19,7 @@ static const char * gpr_names[] = {
 
 extern int32_t mem[MEM_SIZE];
 extern int32_t gpr[32];
-extern uint32_t pc, ri;
+extern uint32_t pc, hi, lo, ri;
 
 enum OPCODES { // lembrem que so sao considerados os 6 primeiros bits dessas constantes
     EXT=0x00,   LW=0x23,    LB=0x20,    LBU=0x24,
