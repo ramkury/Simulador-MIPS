@@ -3,8 +3,8 @@
 
 int32_t mem[MEM_SIZE] = { 0 };
 int32_t gpr[32] = { 0 };
+int32_t ri = 0;
 uint32_t pc = TEXT_START;
-uint32_t ri = 0;
 uint32_t hi = 0;
 uint32_t lo = 0;
 

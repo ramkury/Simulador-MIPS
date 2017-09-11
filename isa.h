@@ -10,6 +10,8 @@
 #define sp (mem[29])
 #define ra (mem[31])
 
+typedef void (*instruction)();
+
 static const char * gpr_names[] = {
         "zero", "at", "v0", "v1", "a0", "a1", "a2", "a3",
         "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
@@ -19,7 +21,8 @@ static const char * gpr_names[] = {
 
 extern int32_t mem[MEM_SIZE];
 extern int32_t gpr[32];
-extern uint32_t pc, hi, lo, ri;
+extern int32_t ri;
+extern uint32_t pc, hi, lo;
 
 enum OPCODES { // lembrem que so sao considerados os 6 primeiros bits dessas constantes
     EXT=0x00,   LW=0x23,    LB=0x20,    LBU=0x24,
@@ -36,6 +39,23 @@ enum FUNCT	{
     SLT=0x2A,   JR=0x08,    SLL=0x00,   SRL=0x02,
     SRA=0x03,   MFHI=0x10,	MFLO=0x12,  SYSCALL=0x0c
 };
+
+void i_add();
+void i_sub();
+void i_mult();
+void i_div();
+void i_and();
+void i_or();
+void i_xor();
+void i_nor();
+void i_slt();
+void i_jr();
+void i_sll();
+void i_srl();
+void i_sra();
+void i_mfhi();
+void i_mflo();
+void i_syscall();
 
 // lê um inteiro alinhado - endereços múltiplos de 4
 int32_t lw(uint32_t address, int16_t kte);
