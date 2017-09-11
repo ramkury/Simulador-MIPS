@@ -2,6 +2,7 @@
 #define SIMULADOR_MIPS_ISA_H
 
 #include <cstdint>
+#include <map>
 
 #define MEM_SIZE    4096
 #define DATA_START  0x00002000
@@ -23,6 +24,9 @@ extern int32_t mem[MEM_SIZE];
 extern int32_t gpr[32];
 extern int32_t ri;
 extern uint32_t pc, hi, lo;
+extern uint8_t op, rs, rt, rd, shamt, funct;
+extern std::map<uint8_t, instruction> map_opcodes;
+extern std::map<uint8_t, instruction> map_funct;
 
 enum OPCODES { // lembrem que so sao considerados os 6 primeiros bits dessas constantes
     EXT=0x00,   LW=0x23,    LB=0x20,    LBU=0x24,
@@ -40,22 +44,48 @@ enum FUNCT	{
     SRA=0x03,   MFHI=0x10,	MFLO=0x12,  SYSCALL=0x0c
 };
 
-void i_add();
-void i_sub();
-void i_mult();
-void i_div();
-void i_and();
-void i_or();
-void i_xor();
-void i_nor();
-void i_slt();
-void i_jr();
-void i_sll();
-void i_srl();
-void i_sra();
-void i_mfhi();
-void i_mflo();
-void i_syscall();
+
+//OPCODES
+void i_ext();
+void i_lw();
+void i_lb();
+void i_lbu();
+void i_lh();
+void i_lhu();
+void i_lui();
+void i_sw();
+void i_sb();
+void i_sh();
+void i_beq();
+void i_bne();
+void i_blez();
+void i_bgtz();
+void i_addi();
+void i_slti();
+void i_sltiu();
+void i_andi();
+void i_ori();
+void i_xori();
+void i_j();
+void i_jal();
+
+// FUNCT
+void f_add();
+void f_sub();
+void f_mult();
+void f_div();
+void f_and();
+void f_or();
+void f_xor();
+void f_nor();
+void f_slt();
+void f_jr();
+void f_sll();
+void f_srl();
+void f_sra();
+void f_mfhi();
+void f_mflo();
+void f_syscall();
 
 // lê um inteiro alinhado - endereços múltiplos de 4
 int32_t lw(uint32_t address, int16_t kte);
@@ -77,6 +107,12 @@ void sb(uint32_t address, int16_t kte, int8_t dado);
 // funções auxiliares
 uint32_t cvt_word_address(uint32_t address);
 uint32_t cvt_half_address(uint32_t address);
+/**
+ * Combina os campos rd, shamt e funct para obter o valor imediato
+ * usado nas instruções do tipo I
+ * @return Valor imediato
+ */
+uint16_t get_immediate();
 
 
 #endif //SIMULADOR_MIPS_ISA_H

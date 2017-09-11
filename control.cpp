@@ -72,12 +72,12 @@ void fetch() {
 }
 
 void decode() {
-    op = (ri >> 26) & 0x3F;
-    rs = (ri >> 21) & 0x1F;
-    rt = (ri >> 16) & 0x1F;
-    rd = (ri >> 11) & 0x1F;
-    shamt = (ri << 21) >> 27;
-    funct = ri & 0x3F;
+    op = static_cast<uint8_t>((ri >> 26) & 0x3F);
+    rs = static_cast<uint8_t>((ri >> 21) & 0x1F);
+    rt = static_cast<uint8_t>((ri >> 16) & 0x1F);
+    rd = static_cast<uint8_t>((ri >> 11) & 0x1F);
+    shamt = static_cast<uint8_t>((ri << 21) >> 27);
+    funct = static_cast<uint8_t>(ri & 0x3F);
 }
 
 void execute() {
