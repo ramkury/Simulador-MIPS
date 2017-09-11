@@ -2,7 +2,15 @@
 #define SIMULADOR_MIPS_CONTROL_H
 
 /**
- * Imprime o conteúdo da memória
+ * Imprime o conteúdo da memória a partir do endereço start
+ * até o endereço end.
+ * @param start
+ * Primeiro endereco de memória a ser impresso
+ * @param end
+ * Endereco no qual a memória pára de ser impressa
+ * @param format
+ * Se format == 'h', é usado o formato hexadecimal.
+ * Se format == 'd', é usado o formato decimal.
  */
 void dump_mem(int start, int end, char format);
 
@@ -16,7 +24,12 @@ void dump_mem(int start, int end, char format);
  */
 void load_file(int start_addr, const char *filename);
 
-// Imprime o conteúdo dos registradores do MIPS
+/**
+ * Imprime o conteúdo dos registradores do MIPS.
+ * @param format
+ * Se format == 'h', é usado o formato hexadecimal.
+ * Se format == 'd', é usado o formato decimal.
+ */
 void dump_reg(char format);
 
 /**
