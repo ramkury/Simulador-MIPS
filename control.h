@@ -1,7 +1,9 @@
 #ifndef SIMULADOR_MIPS_CONTROL_H
 #define SIMULADOR_MIPS_CONTROL_H
 
-// Imprime o conteúdo da memória
+/**
+ * Imprime o conteúdo da memória
+ */
 void print_memory();
 
 /**
@@ -15,7 +17,7 @@ void print_memory();
 void read_to_memory(int start_addr, const char * filename);
 
 // Imprime o conteúdo dos registradores do MIPS
-void dump_reg();
+void dump_reg(char format);
 
 /**
  * Carrega a próxima instrução da memória emulada, a coloca em 'ri'

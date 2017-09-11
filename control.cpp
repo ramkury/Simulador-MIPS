@@ -27,8 +27,29 @@ void read_to_memory(int start_addr, const char * filename) {
     }
 }
 
-void dump_reg() {
-
+void dump_reg(char format) {
+    const char * chosen_format;
+    switch (tolower(format)) {
+        case 'd':
+            printf("\nDump de registradores (formato decimal):");
+            chosen_format = "$%s=%d\t";
+            break;
+        case 'h':
+            printf("\nDump de registradores (formato hexadecimal):");
+            chosen_format = "$%s=%.8X\t";
+            break;
+        default:
+            return;
+    }
+    for (int i = 0; i < 32; ++i) {
+        if (i % 4 == 0) {
+            printf("\n");
+        }
+        printf(chosen_format, gpr_names[i], gpr[i]);
+    }
+    printf("\n");
+    printf(chosen_format, "pc", pc);
+    printf("\n");
 }
 
 void fetch() {
