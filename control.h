@@ -8,6 +8,9 @@ typedef enum {
     TS_except_syscall_undefined
 } TS_except;
 
+// Componentes da instrução
+uint8_t op, rs, rt, rd, shamt, funct;
+
 /**
  * Imprime o conteúdo da memória a partir do endereço start
  * até o endereço end.

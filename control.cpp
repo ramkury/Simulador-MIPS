@@ -72,7 +72,12 @@ void fetch() {
 }
 
 void decode() {
-
+    op = (ri >> 26) & 0x3F;
+    rs = (ri >> 21) & 0x1F;
+    rt = (ri >> 16) & 0x1F;
+    rd = (ri >> 11) & 0x1F;
+    shamt = (ri << 21) >> 27;
+    funct = ri & 0x3F;
 }
 
 void execute() {

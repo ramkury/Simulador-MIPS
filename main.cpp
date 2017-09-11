@@ -1,12 +1,17 @@
+#define CATCH_CONFIG_RUNNER
+#include "tests/catch.h"
+
 #include <cstdio>
 #include "isa.h"
 #include "control.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, const char * argv[]) {
 
-    load_file(TEXT_START / 4, "../bin/text.bin");
+    int tests_result = Catch::Session().run( argc, argv );
+
+    /*load_file(TEXT_START / 4, "../bin/text.bin");
     load_file(DATA_START / 4, "../bin/data.bin");
 
     dump_mem(TEXT_START, DATA_START, 'h');
@@ -38,7 +43,7 @@ int main() {
 
     printf("Pressione qualquer tecla para continuar\n");
     getchar();
-    dump_mem(TEXT_START, DATA_START, 'h');
+    dump_mem(TEXT_START, DATA_START, 'h');*/
 
 
     /*
@@ -56,7 +61,7 @@ int main() {
     dump_mem(DATA_START, MEM_SIZE * 4, 'd');
     dump_mem(TEXT_START, DATA_START, 'a');
     */
-    return 0;
+    return ( tests_result < 0xff ? tests_result : 0xff );
 }
 
 
