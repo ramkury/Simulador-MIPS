@@ -85,79 +85,88 @@ void i_ext() {
 }
 
 void i_lw() {
-
+    gpr[rt] = lw(gpr_u[rs], get_immediate());
 }
 
 void i_lb() {
-
+    gpr[rt] = lb(gpr_u[rs], get_immediate());
 }
 
 void i_lbu() {
-
+    gpr[rt] = lbu(gpr_u[rs], get_immediate());
 }
 
 void i_lh() {
-
+    gpr[rt] = lh(gpr_u[rs], get_immediate());
 }
 
 void i_lhu() {
-
+    gpr[rt] = lhu(gpr_u[rs], get_immediate());
 }
 
 void i_lui() {
-
+    gpr[rt] = get_immediate() << 16;
 }
 
 void i_sw() {
-
+    sw(gpr_u[rs], get_immediate(), gpr[rt]);
 }
 
 void i_sb() {
-
+    sb(gpr_u[rs], get_immediate(), static_cast<int8_t>(gpr[rt] & 0xFF));
 }
 
 void i_sh() {
-
+    sh(gpr_u[rs], get_immediate(), static_cast<int16_t>(gpr[rt] & 0xFFFF));
 }
 
 void i_beq() {
-
+    if (gpr[rs] == gpr[rt]) {
+        branch();
+    }
 }
 
 void i_bne() {
-
+    if (gpr[rs] != gpr[rt]) {
+        branch();
+    }
 }
 
 void i_blez() {
-
+    if (gpr[rs] <= 0) {
+        branch();
+    }
 }
 
 void i_bgtz() {
-
+    if (gpr[rs] > 0) {
+        branch();
+    }
 }
 
 void i_addi() {
-
+    gpr[rt] = gpr[rs] + get_immediate();
 }
 
 void i_slti() {
-
+    gpr[rt] = (gpr[rs] < get_immediate());
 }
 
 void i_sltiu() {
-
+    int32_t imm = get_immediate();
+    gpr[rt] = (gpr_u[rs] < static_cast<uint32_t>(imm));
 }
 
 void i_andi() {
-
+    gpr[rt] = gpr[rs] & ri & 0xFFFF;
 }
 
 void i_ori() {
-
+    gpr[rt] = gpr[rs] | (ri & 0xFFFF);
 }
 
 void i_xori() {
-
+    gpr[rt] = gpr[rs] ^ (ri & 0xFFFF);
 }
 
 void i_j() {
@@ -232,6 +241,11 @@ void f_syscall() {
 
 }
 
-uint16_t get_immediate() {
-    return static_cast<uint16_t>(ri & 0xFFFF);
+int16_t get_immediate() {
+    return static_cast<int16_t>(ri & 0xFFFF);
+}
+
+void branch() {
+    int32_t s_offset = get_immediate() << 2;
+    pc += s_offset;
 }

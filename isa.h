@@ -8,8 +8,9 @@
 #define DATA_START  0x00002000
 #define TEXT_START  0x00000000
 
-#define sp (mem[29])
-#define ra (mem[31])
+#define sp   (mem[29])
+#define ra   (mem[31])
+#define zero (mem[0])
 
 typedef void (*instruction)();
 
@@ -22,6 +23,7 @@ static const char * gpr_names[] = {
 
 extern int32_t mem[MEM_SIZE];
 extern int32_t gpr[32];
+static auto const * gpr_u = static_cast<uint32_t *>(gpr);
 extern int32_t ri;
 extern uint32_t pc, hi, lo;
 extern uint8_t op, rs, rt, rd, shamt, funct;
@@ -107,12 +109,19 @@ void sb(uint32_t address, int16_t kte, int8_t dado);
 // funções auxiliares
 uint32_t cvt_word_address(uint32_t address);
 uint32_t cvt_half_address(uint32_t address);
+
 /**
  * Combina os campos rd, shamt e funct para obter o valor imediato
  * usado nas instruções do tipo I
  * @return Valor imediato
  */
-uint16_t get_immediate();
+int16_t get_immediate();
+
+/**
+ * Muda o valor de PC de acordo com o offset
+ * @param offset
+ */
+void branch();
 
 
 #endif //SIMULADOR_MIPS_ISA_H

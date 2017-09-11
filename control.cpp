@@ -81,7 +81,7 @@ void decode() {
 }
 
 void execute() {
-
+    zero = 0;
 }
 
 void step() {
