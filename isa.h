@@ -8,9 +8,12 @@
 #define DATA_START  0x00002000
 #define TEXT_START  0x00000000
 
-#define sp   (mem[29])
-#define ra   (mem[31])
-#define zero (mem[0])
+#define sp   (gpr[29])
+#define ra   (gpr[31])
+#define zero (gpr[0])
+#define v0   (gpr[2])
+#define a0   (gpr[4])
+#define a1   (gpr[5])
 
 typedef void (*instruction)();
 
@@ -23,9 +26,9 @@ static const char * gpr_names[] = {
 
 extern int32_t mem[MEM_SIZE];
 extern int32_t gpr[32];
-static auto const * gpr_u = static_cast<uint32_t *>(gpr);
-extern int32_t ri;
-extern uint32_t pc, hi, lo;
+extern uint32_t * const gpr_u;
+extern int32_t ri, hi, lo;
+extern uint32_t pc;
 extern uint8_t op, rs, rt, rd, shamt, funct;
 extern std::map<uint8_t, instruction> map_opcodes;
 extern std::map<uint8_t, instruction> map_funct;
@@ -118,10 +121,16 @@ uint32_t cvt_half_address(uint32_t address);
 int16_t get_immediate();
 
 /**
- * Muda o valor de PC de acordo com o offset
- * @param offset
+ * Multiplica por 4 os 16 últimos bits de ri
+ * e adiciona o resultado (com sinal extendido) ao PC
  */
 void branch();
 
+/**
+ * Desloca 2 bits para a esquerda os 26 últimos bits de ri
+ * e concatena o resultado aos 4 primeiros bits do PC
+ * @param
+ */
+void jump(int32_t address);
 
 #endif //SIMULADOR_MIPS_ISA_H

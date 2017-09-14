@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <fstream>
+#include <cstdlib>
 #include "control.h"
 #include "isa.h"
+
+AddressException::AddressException(std::string& message) : message(message) {}
 
 void dump_mem(int start, int end, char format) {
 
@@ -67,7 +70,7 @@ void dump_reg(char format) {
 }
 
 void fetch() {
-    ri = ((uint32_t *)mem)[pc];
+    ri = ((uint32_t *)mem)[pc / 4];
     pc += 4;
 }
 
@@ -82,6 +85,12 @@ void decode() {
 
 void execute() {
     zero = 0;
+    auto it = map_opcodes.find(op);
+    if (it == map_opcodes.end()) {
+        printf("Opcode 0x%.6X não implementado!\n", op);
+    } else {
+        (*(it->second))();
+    }
 }
 
 void step() {
@@ -93,7 +102,19 @@ void step() {
 void run() {
     pc = 0;
     sp = 0x3FFC;
-    while (pc < DATA_START) {
-        step();
+    try {
+        while (pc < DATA_START) {
+            step();
+        }
+    } catch (TS_except e) {
+        if (e == TS_except_syscall_exit) {
+            printf("\nExecução do programa encerrada por syscall.\n");
+            exit(0);
+        }
+        printf("Erro! Pressione qualquer tecla para dump de registradores:\n");
+        getchar();
+        dump_reg('h');
+        printf("Pressione qualquer tecla para dump de memória e encerrar o programa.\n");
+        throw;
     }
 }

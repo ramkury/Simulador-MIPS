@@ -9,58 +9,25 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
 
-    int tests_result = Catch::Session().run( argc, argv );
+    int tests_result = 0; // Catch::Session().run( argc, argv );
+    // getchar();
 
-    /*load_file(TEXT_START / 4, "../bin/text.bin");
-    load_file(DATA_START / 4, "../bin/data.bin");
+    load_file(TEXT_START / 4, "bin/text.bin");
+    load_file(DATA_START / 4, "bin/data.bin");
 
+    printf("Segmento de código:\n");
     dump_mem(TEXT_START, DATA_START, 'h');
-
-    printf("Pressione qualquer tecla para continuar\n");
+    printf("Segmento de dados:\n");
+    dump_mem(DATA_START, MEM_SIZE * 4, 'h');
+    printf("Executando o programa:\n");
+    run();
     getchar();
-
-    printf("lw 0 0: %.8X\n", lw(0, 0));
-    printf("lh 4 0: %.8X\n", lh(4, 0));
-    printf("lb 6 0: %.8X\n", lb(6, 0));
-    printf("Usando as funções de escrita em memória e verificando efeitos.\n");
-    sw(0, 0, -5);
-    sh(4, 0, -10);
-    sb(6, 0, -20);
-    printf("lw 0 0: %.8X\n", lw(0, 0));
-    printf("lh 4 0: %.8X\n", lh(4, 0));
-    printf("lb 6 0: %.8X\n", lb(6, 0));
-
     printf("Pressione qualquer tecla para continuar\n");
     getchar();
     dump_mem(TEXT_START, DATA_START, 'h');
 
-    mem[0] = 0x12345678;
-    printf("0: %.8X\n", lb(0, 0));
-    printf("1: %.8X\n", lb(1, 0));
-    printf("2: %.8X\n", lb(2, 0));
-    printf("3: %.8X\n", lb(3, 0));
-    printf("lw 0 0: %.8X\n", lw(0, 0));
-
-    printf("Pressione qualquer tecla para continuar\n");
-    getchar();
-    dump_mem(TEXT_START, DATA_START, 'h');*/
 
 
-    /*
-    dump_reg('d');
-    dump_reg('h');
-    dump_reg('a');
-     */
-
-    /*
-    load_file(TEXT_START / 4, "../bin/text.bin");
-    load_file(DATA_START / 4, "../bin/data.bin");
-    printf("Área de código:\n");
-    dump_mem(TEXT_START, DATA_START, 'h');
-    printf("Área de dados:\n");
-    dump_mem(DATA_START, MEM_SIZE * 4, 'd');
-    dump_mem(TEXT_START, DATA_START, 'a');
-    */
     return ( tests_result < 0xff ? tests_result : 0xff );
 }
 
