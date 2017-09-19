@@ -11,16 +11,16 @@ typedef enum {
 } TS_except;
 
 /**
- * Imprime o conteúdo da memória a partir do endereço start
- * até o endereço end.
- * @param start
- * Primeiro endereco de memória a ser impresso
- * @param end
- * Endereco no qual a memória pára de ser impressa
- * @param format
- * Se format == 'h', é usado o formato hexadecimal.
- * Se format == 'd', é usado o formato decimal.
- */
+* Imprime o conteúdo da memória a partir do endereço start
+* até o endereço end.
+* @param start
+* Primeiro endereco de memória a ser impresso
+* @param end
+* Endereco no qual a memória pára de ser impressa
+* @param format
+* Se format == 'h', é usado o formato hexadecimal.
+* Se format == 'd', é usado o formato decimal.
+*/
 void dump_mem(int start, int end, char format);
 
 /**

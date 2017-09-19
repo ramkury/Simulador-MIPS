@@ -1,5 +1,5 @@
-#include "isa.h"
-#include "control.h"
+#include "../include/isa.h"
+#include "../include/control.h"
 #include <cstdio>
 
 int32_t mem[MEM_SIZE] = { 0 };
@@ -11,6 +11,8 @@ int32_t hi = 0;
 int32_t lo = 0;
 
 uint8_t op, rs, rt, rd, shamt, funct;
+int16_t k16;
+uint32_t k26;
 
 std::map<uint8_t, instruction> map_opcodes = {
         {0x00, &i_ext},      {0x23, &i_lw},       {0x20, &i_lb},       {0x24, &i_lbu},
@@ -92,39 +94,39 @@ void i_ext() {
 }
 
 void i_lw() {
-    gpr[rt] = lw(gpr_u[rs], get_immediate());
+    gpr[rt] = lw(gpr_u[rs], k16);
 }
 
 void i_lb() {
-    gpr[rt] = lb(gpr_u[rs], get_immediate());
+    gpr[rt] = lb(gpr_u[rs], k16);
 }
 
 void i_lbu() {
-    gpr[rt] = lbu(gpr_u[rs], get_immediate());
+    gpr[rt] = lbu(gpr_u[rs], k16);
 }
 
 void i_lh() {
-    gpr[rt] = lh(gpr_u[rs], get_immediate());
+    gpr[rt] = lh(gpr_u[rs], k16);
 }
 
 void i_lhu() {
-    gpr[rt] = lhu(gpr_u[rs], get_immediate());
+    gpr[rt] = lhu(gpr_u[rs], k16);
 }
 
 void i_lui() {
-    gpr[rt] = get_immediate() << 16;
+    gpr[rt] = k16 << 16;
 }
 
 void i_sw() {
-    sw(gpr_u[rs], get_immediate(), gpr[rt]);
+    sw(gpr_u[rs], k16, gpr[rt]);
 }
 
 void i_sb() {
-    sb(gpr_u[rs], get_immediate(), static_cast<int8_t>(gpr[rt] & 0xFF));
+    sb(gpr_u[rs], k16, static_cast<int8_t>(gpr[rt] & 0xFF));
 }
 
 void i_sh() {
-    sh(gpr_u[rs], get_immediate(), static_cast<int16_t>(gpr[rt] & 0xFFFF));
+    sh(gpr_u[rs], k16, static_cast<int16_t>(gpr[rt] & 0xFFFF));
 }
 
 void i_beq() {
@@ -152,37 +154,37 @@ void i_bgtz() {
 }
 
 void i_addi() {
-    gpr[rt] = gpr[rs] + get_immediate();
+    gpr[rt] = gpr[rs] + k16;
 }
 
 void i_slti() {
-    gpr[rt] = (gpr[rs] < get_immediate());
+    gpr[rt] = (gpr[rs] < k16);
 }
 
 void i_sltiu() {
-    int32_t imm = get_immediate();
+    int32_t imm = k16;
     gpr[rt] = (gpr_u[rs] < static_cast<uint32_t>(imm));
 }
 
 void i_andi() {
-    gpr[rt] = gpr[rs] & ri & 0xFFFF;
+    gpr[rt] = gpr[rs] & k16;
 }
 
 void i_ori() {
-    gpr[rt] = gpr[rs] | (ri & 0xFFFF);
+    gpr[rt] = gpr[rs] | k16;
 }
 
 void i_xori() {
-    gpr[rt] = gpr[rs] ^ (ri & 0xFFFF);
+    gpr[rt] = gpr[rs] ^ k16;
 }
 
 void i_j() {
-    jump(ri);
+    jump(k26);
 }
 
 void i_jal() {
     ra = pc;
-    jump(ri);
+    jump(k26);
 }
 
 void f_add() {
@@ -229,7 +231,6 @@ void f_slt() {
 void f_jr() {
     if (gpr[rs] % 4 != 0) {
         throw TS_except_alignment_word;
-        //TODO mudar tipo da exceção
     }
     pc = gpr_u[rs];
 }
@@ -271,12 +272,8 @@ void f_syscall() {
     }
 }
 
-int16_t get_immediate() {
-    return static_cast<int16_t>(ri & 0xFFFF);
-}
-
 void branch() {
-    int32_t s_offset = get_immediate() << 2;
+    int32_t s_offset = k16 << 2;
     pc += s_offset;
 }
 

@@ -1,6 +1,6 @@
 #include <cstdio>
-#include "isa.h"
-#include "control.h"
+#include "../include/isa.h"
+#include "../include/control.h"
 
 using namespace std;
 

@@ -29,7 +29,10 @@ extern int32_t gpr[32];
 extern uint32_t * const gpr_u;
 extern int32_t ri, hi, lo;
 extern uint32_t pc;
+// Campos da instrução
 extern uint8_t op, rs, rt, rd, shamt, funct;
+extern int16_t k16;
+extern uint32_t k26;
 extern std::map<uint8_t, instruction> map_opcodes;
 extern std::map<uint8_t, instruction> map_funct;
 
@@ -97,15 +100,8 @@ uint32_t cvt_word_address(uint32_t address);
 uint32_t cvt_half_address(uint32_t address);
 
 /**
- * Combina os campos rd, shamt e funct para obter o valor imediato
- * usado nas instruções do tipo I
- * @return Valor imediato
- */
-int16_t get_immediate();
-
-/**
  * Multiplica por 4 os 16 últimos bits de ri
- * e adiciona o resultado (com sinal extendido) ao PC
+ * e adiciona o resultado (com sinal estendido) ao PC
  */
 void branch();
 

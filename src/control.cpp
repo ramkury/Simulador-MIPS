@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <fstream>
 #include <cstdlib>
-#include "control.h"
-#include "isa.h"
+#include "../include/control.h"
+#include "../include/isa.h"
 
 void dump_mem(int start, int end, char format) {
 
@@ -79,6 +79,8 @@ void decode() {
     rd    = static_cast<uint8_t>((ri >> 11) & 0x1F);
     shamt = static_cast<uint8_t>((ri >>  6) & 0x1F);
     funct = static_cast<uint8_t>(ri & 0x3F);
+    k16   = static_cast<int16_t>(ri & 0xFFFF);
+    k26   = static_cast<uint32_t>(ri & 0x3FFFFFF);
 }
 
 void execute() {
@@ -105,16 +107,23 @@ void run() {
             step();
         }
     } catch (TS_except e) {
-        if (e == TS_except_syscall_exit) {
-            printf("\nExecução do programa encerrada por syscall.\n");
-            exit(0);
+        switch(e) {
+            case TS_except_syscall_exit:
+                printf("\nExecução do programa encerrada por syscall.\n");
+                exit(0);
+            case TS_except_syscall_undefined:
+                printf("\nFoi utilizado um syscall não definido (código %d).\n", v0);
+                break;
+            case TS_except_alignment_word:
+                printf("\nAcesso a palavra não alinhada (endereço não múltiplo de 4).\n");
+                break;
+            case TS_except_alignment_halfword:
+                printf("\nAcesso a meia palavra não alinhada (endereço não múltiplo de 2).\n");
+                break;
         }
-        printf("Erro! Pressione qualquer tecla para dump de registradores:\n");
-        getchar();
         dump_reg('h');
-        printf("Pressione qualquer tecla para dump de memória e encerrar o programa.\n");
-        exit(-1);
+        exit(e);
     }
-    printf("Erro! PC excedeu a área de código!");
+    printf("Erro! PC excedeu a área de código!\n");
     exit(-2);
 }

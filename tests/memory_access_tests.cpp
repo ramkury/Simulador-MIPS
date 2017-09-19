@@ -1,5 +1,5 @@
 #include "catch.h"
-#include "../isa.h"
+#include "../include/isa.h"
 
 TEST_CASE("Escrita e leitura em memória") {
 

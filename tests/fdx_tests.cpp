@@ -1,6 +1,6 @@
 #include "catch.h"
-#include "../isa.h"
-#include "../control.h"
+#include "../include/isa.h"
+#include "../include/control.h"
 
 TEST_CASE("Decode") {
     ri = 0x20082000;
