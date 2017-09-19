@@ -4,8 +4,6 @@
 #include "control.h"
 #include "isa.h"
 
-AddressException::AddressException(std::string& message) : message(message) {}
-
 void dump_mem(int start, int end, char format) {
 
     int i;
@@ -75,11 +73,11 @@ void fetch() {
 }
 
 void decode() {
-    op = static_cast<uint8_t>((ri >> 26) & 0x3F);
-    rs = static_cast<uint8_t>((ri >> 21) & 0x1F);
-    rt = static_cast<uint8_t>((ri >> 16) & 0x1F);
-    rd = static_cast<uint8_t>((ri >> 11) & 0x1F);
-    shamt = static_cast<uint8_t>((ri << 21) >> 27);
+    op    = static_cast<uint8_t>((ri >> 26) & 0x3F);
+    rs    = static_cast<uint8_t>((ri >> 21) & 0x1F);
+    rt    = static_cast<uint8_t>((ri >> 16) & 0x1F);
+    rd    = static_cast<uint8_t>((ri >> 11) & 0x1F);
+    shamt = static_cast<uint8_t>((ri >>  6) & 0x1F);
     funct = static_cast<uint8_t>(ri & 0x3F);
 }
 
@@ -115,6 +113,8 @@ void run() {
         getchar();
         dump_reg('h');
         printf("Pressione qualquer tecla para dump de memória e encerrar o programa.\n");
-        throw;
+        exit(-1);
     }
+    printf("Erro! PC excedeu a área de código!");
+    exit(-2);
 }

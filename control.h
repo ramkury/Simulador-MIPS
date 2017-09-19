@@ -3,12 +3,6 @@
 
 #include <string>
 
-class AddressException {
-public:
-    explicit AddressException(std::string& message);
-    std::string message;
-};
-
 typedef enum {
     TS_except_alignment_word,
     TS_except_alignment_halfword,

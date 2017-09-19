@@ -1,6 +1,3 @@
-#define CATCH_CONFIG_RUNNER
-#include "tests/catch.h"
-
 #include <cstdio>
 #include "isa.h"
 #include "control.h"
@@ -8,9 +5,6 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-
-    int tests_result = 0; // Catch::Session().run( argc, argv );
-    // getchar();
 
     load_file(TEXT_START / 4, "bin/text.bin");
     load_file(DATA_START / 4, "bin/data.bin");
@@ -26,9 +20,7 @@ int main(int argc, const char * argv[]) {
     getchar();
     dump_mem(TEXT_START, DATA_START, 'h');
 
-
-
-    return ( tests_result < 0xff ? tests_result : 0xff );
+    return 0;
 }
 
 

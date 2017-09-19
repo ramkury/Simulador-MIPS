@@ -5,7 +5,7 @@
 TEST_CASE("Decode") {
     ri = 0x20082000;
     decode();
-    CHECK(op == ADDI);
+    CHECK(op == 0x08);
     CHECK(rt == 8);
     CHECK(rs == 0);
     CHECK(funct == 0);
@@ -13,7 +13,7 @@ TEST_CASE("Decode") {
 
     ri = 0x8D040000;
     decode();
-    CHECK(op == LW);
+    CHECK(op == 0x23);
     CHECK(rt == 4);
     CHECK(rs == 8);
     CHECK(rd == 0);
